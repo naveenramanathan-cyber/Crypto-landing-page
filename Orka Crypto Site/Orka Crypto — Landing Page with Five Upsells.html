@@ -1,0 +1,1362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orka crypto — Crypto Education Membership</title>
+<meta name="description" content="Structured crypto education, market breakdowns, live sessions and a private community of traders in one membership.">
+<meta name="theme-color" content="#050505">
+<script>document.documentElement.classList.add('js-anim');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+:root{
+  --bg:#050505; --bg-2:#0B0B0B; --card:#111111; --elev:#171717;
+  --accent:#F7931A; --accent-2:#FFB347;
+  --text:#F5F5F5; --muted:#929292; --dim:#5f5f5f;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.14);
+  --glow:rgba(247,147,26,.20);
+  --font:"Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --r-sm:4px; --r-md:8px; --r-lg:10px; --r-xl:14px;
+  --gutter:clamp(20px, 4vw, 48px);
+  --nav-h:68px;
+  --ease:cubic-bezier(.22,.8,.24,1);
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top, 0px);
+  padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth; scroll-padding-top:calc(var(--nav-h) + 16px + env(safe-area-inset-top, 0px)); background:var(--bg); -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--text); font-family:var(--font); font-size:17px; line-height:1.6; font-stretch:100%; overflow-x:hidden; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+img,svg,canvas{display:block; max-width:100%}
+a{color:inherit}
+button{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--accent-2); outline-offset:3px; border-radius:6px}
+::selection{background:var(--accent); color:#000}
+.wrap{width:min(1240px, 100% - 2*var(--gutter)); margin-inline:auto}
+.sr-only{position:absolute!important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.skip{position:absolute; left:16px; top:-60px; z-index:100; background:var(--accent); color:#000; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:600}
+.skip:focus{top:calc(12px + env(safe-area-inset-top,0px))}
+
+/* Type scale */
+.h-display{font-weight:720; font-stretch:115%; letter-spacing:-.025em; line-height:.98; margin:0}
+.h-section{font-size:clamp(2.1rem, 4.6vw, 3.9rem); font-weight:700; font-stretch:112%; letter-spacing:-.022em; line-height:1.02; margin:0; text-wrap:balance}
+.h-card{font-size:clamp(1.25rem, 1.9vw, 1.6rem); font-weight:650; font-stretch:108%; letter-spacing:-.012em; line-height:1.15; margin:0}
+.lead{font-size:clamp(1.05rem, 1.4vw, 1.2rem); color:var(--muted); line-height:1.6; max-width:56ch; margin:0}
+.body{color:var(--muted); margin:0; max-width:60ch}
+.tag{font-size:.86rem; font-stretch:78%; font-weight:560; letter-spacing:.02em; color:var(--muted)}
+.o{color:var(--accent)}
+.placeholder{color:var(--accent-2); background:rgba(247,147,26,.08); border:1px dashed rgba(247,147,26,.45); border-radius:6px; padding:0 .35em; font-stretch:90%; white-space:nowrap}
+
+/* Buttons */
+.btn{--h:52px; display:inline-flex; align-items:center; justify-content:center; gap:.6em; min-height:var(--h); padding:0 24px; border-radius:3px; font-weight:700; font-size:1rem; text-decoration:none; border:1px solid transparent; cursor:pointer; transition:transform .35s var(--ease), box-shadow .35s var(--ease), background-color .25s, border-color .25s, color .25s; white-space:nowrap}
+.btn-primary{background:var(--accent); color:#0a0602; box-shadow:0 0 0 0 var(--glow), inset 0 1px 0 rgba(255,255,255,.35)}
+.btn-primary:hover{transform:translateY(-2px); background:#ff9d2b; box-shadow:0 10px 34px -6px rgba(247,147,26,.55), inset 0 1px 0 rgba(255,255,255,.4)}
+.btn-primary:active{transform:translateY(0); box-shadow:0 4px 14px -6px rgba(247,147,26,.5)}
+.btn-ghost{background:rgba(255,255,255,.03); border-color:var(--line-2); color:var(--text)}
+.btn-ghost:hover{border-color:rgba(247,147,26,.5); background:rgba(247,147,26,.06)}
+.btn .arr{transition:transform .35s var(--ease)}
+.btn:hover .arr{transform:translateX(3px)}
+.btn-sm{--h:42px; padding:0 18px; font-size:.94rem}
+
+/* =========================================================
+   NAV
+   ========================================================= */
+.nav{position:fixed; inset:0 0 auto 0; z-index:50; padding-top:env(safe-area-inset-top, 0px); transition:background-color .4s, border-color .4s, backdrop-filter .4s; border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(5,5,5,.78); border-bottom-color:var(--line); backdrop-filter:blur(14px) saturate(140%); -webkit-backdrop-filter:blur(14px) saturate(140%)}
+.nav-in{height:var(--nav-h); display:flex; align-items:center; justify-content:space-between; gap:24px}
+.brand{display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:700; font-stretch:118%; letter-spacing:-.01em; font-size:1.06rem}
+.brand-logo{display:block; width:100px; height:58px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(247,147,26,.20))}
+.brand-mark{width:30px; height:30px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #ffc56e, #f7931a 55%, #a85a06); display:grid; place-items:center; box-shadow:0 0 18px -4px rgba(247,147,26,.7)}
+.brand-mark svg{width:13px; height:auto; color:#2a1500}
+.nav-links{display:flex; align-items:center; gap:4px; list-style:none; margin:0; padding:0}
+.nav-links a{display:block; padding:8px 14px; border-radius:3px; text-decoration:none; color:var(--muted); font-size:.95rem; font-weight:500; transition:color .25s, background-color .25s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text); background:rgba(255,255,255,.05)}
+.nav-links a.active::before{content:""; display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent); margin-right:8px; vertical-align:middle; transform:translateY(-1px)}
+.nav-cta{display:flex; align-items:center; gap:10px}
+.burger{display:none; width:44px; height:44px; border-radius:3px; border:1px solid var(--line-2); background:transparent; cursor:pointer; position:relative}
+.burger span{position:absolute; left:13px; right:13px; height:1.5px; background:var(--text); transition:transform .4s var(--ease), opacity .25s}
+.burger span:nth-child(1){top:17px}
+.burger span:nth-child(2){top:25px}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(4px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
+.mmenu{position:fixed; inset:0; z-index:45; background:rgba(5,5,5,.97); padding:calc(var(--nav-h) + env(safe-area-inset-top,0px) + 24px) var(--gutter) calc(32px + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; gap:8px; opacity:0; visibility:hidden; transition:opacity .35s var(--ease), visibility 0s linear .35s}
+.mmenu.open{opacity:1; visibility:visible; transition:opacity .35s var(--ease)}
+.mmenu a.ml{font-size:2rem; font-weight:650; font-stretch:112%; text-decoration:none; padding:10px 0; border-bottom:1px solid var(--line); transform:translateY(10px); opacity:0; transition:transform .5s var(--ease), opacity .5s var(--ease)}
+.mmenu.open a.ml{transform:none; opacity:1}
+.mmenu.open a.ml:nth-child(2){transition-delay:.04s}.mmenu.open a.ml:nth-child(3){transition-delay:.08s}.mmenu.open a.ml:nth-child(4){transition-delay:.12s}.mmenu.open a.ml:nth-child(5){transition-delay:.16s}
+.mmenu .btn{margin-top:auto}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{position:relative; min-height:max(640px, 100svh); display:flex; align-items:center; overflow:hidden; isolation:isolate; background:radial-gradient(1200px 700px at 72% 45%, #120a02 0%, var(--bg) 60%)}
+.hero-canvas{position:absolute; inset:0; width:100%; height:100%; z-index:-2}
+.hero::after{content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background:
+  linear-gradient(90deg, rgba(5,5,5,.92) 0%, rgba(5,5,5,.62) 34%, rgba(5,5,5,0) 62%),
+  linear-gradient(0deg, var(--bg) 0%, rgba(5,5,5,0) 22%)}
+.hero-streaks{position:absolute; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
+.hero-streaks i{position:absolute; height:1px; width:38vw; left:-40vw; background:linear-gradient(90deg, transparent, rgba(255,179,71,.55), transparent); opacity:.5; animation:streak 11s linear infinite}
+.hero-streaks i:nth-child(1){top:31%; animation-delay:1s}
+.hero-streaks i:nth-child(2){top:58%; animation-delay:5.5s; animation-duration:14s; opacity:.32}
+.hero-streaks i:nth-child(3){top:74%; animation-delay:8s; animation-duration:9s; opacity:.25}
+@keyframes streak{to{transform:translateX(180vw)}}
+.hero-in{position:relative; padding-top:calc(var(--nav-h) + 40px); padding-bottom:72px}
+.hero-copy{max-width:780px}
+.hero-logo{display:block; width:clamp(132px, 13vw, 180px); height:auto; margin:0 0 16px; filter:drop-shadow(0 0 18px rgba(247,147,26,.18))}
+.badge{display:inline-flex; align-items:center; gap:10px; padding:7px 14px 7px 8px; border-radius:999px; border:1px solid var(--line-2); background:rgba(17,17,17,.6); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); font-size:.88rem; color:#cfcfcf; font-weight:500}
+.badge b{display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%; background:rgba(247,147,26,.14); color:var(--accent); font-size:.8rem}
+.hero h1{font-size:clamp(2.7rem, 4.9vw, 4.9rem); font-stretch:110%; margin:26px 0 0}
+.hero h1 .ln{display:block}
+.hero h1 .ghost{color:var(--text); -webkit-text-stroke:0; font-weight:inherit}
+.hero .lead{margin-top:26px; color:#b3b3b3}
+.hero-ctas{display:flex; flex-wrap:wrap; gap:12px; margin-top:34px}
+.coin-fallback{display:none; position:absolute; right:6%; top:50%; width:min(40vw, 460px); transform:translateY(-50%); z-index:-2; filter:drop-shadow(0 0 80px rgba(247,147,26,.35))}
+.no-webgl .coin-fallback{display:block}
+.no-webgl .hero-canvas{display:none}
+
+/* =========================================================
+   STATS STRIP
+   ========================================================= */
+.stats{border-block:1px solid var(--line); background:var(--bg-2)}
+.stats ul{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4, 1fr)}
+.stats li{padding:30px 28px; border-left:1px solid var(--line); display:flex; flex-direction:column; gap:6px}
+.stats li:first-child{border-left:0; padding-left:0}
+.stat-v{font-size:clamp(1.5rem, 2.4vw, 2rem); font-weight:680; font-stretch:115%; letter-spacing:-.02em; line-height:1.1}
+.stat-v em{font-style:normal; color:var(--accent)}
+.stat-l{color:var(--muted); font-size:.94rem; line-height:1.45}
+
+/* Section scaffolding */
+.sec{padding-block:clamp(88px, 11vw, 164px); position:relative}
+.sec-head{display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:end; margin-bottom:clamp(44px, 6vw, 76px)}
+.sec-head .lead{justify-self:end}
+
+/* =========================================================
+   PROBLEM
+   ========================================================= */
+.problem{background:linear-gradient(var(--bg), var(--bg-2))}
+.problem-grid{display:grid; grid-template-columns:5fr 7fr; gap:clamp(40px, 7vw, 112px)}
+.problem-left{position:sticky; top:calc(var(--nav-h) + 48px); align-self:start}
+.problem-left .lead{margin-top:24px}
+.noise-svg{margin-top:44px; width:100%; max-width:440px; height:auto; overflow:visible}
+.problem-list{list-style:none; margin:0; padding:0}
+.problem-list li{display:grid; grid-template-columns:92px 1fr; gap:28px; padding:34px 0; border-top:1px solid var(--line)}
+.problem-list li:last-child{border-bottom:1px solid var(--line)}
+.problem-list .k{font-size:clamp(2.25rem, 4vw, 4rem); color:rgba(247,147,26,.75); font-weight:800; line-height:.85; letter-spacing:-.08em; padding-top:2px}
+.problem-list h3{font-size:clamp(1.3rem, 2vw, 1.7rem); font-weight:640; font-stretch:108%; letter-spacing:-.012em; margin:0 0 8px; line-height:1.2}
+.shift{margin-top:48px; padding:28px 30px; border-radius:6px; background:rgba(255,255,255,.025); border:1px solid var(--line)}
+.shift p{margin:0; font-size:clamp(1.05rem, 1.5vw, 1.22rem); line-height:1.55; font-weight:500}
+.shift p strong{font-weight:650}
+
+/* =========================================================
+   BENEFITS (bento)
+   ========================================================= */
+.bento{display:grid; grid-template-columns:repeat(12, 1fr); grid-auto-rows:minmax(300px, auto); gap:16px}
+.card{position:relative; background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; display:flex; flex-direction:column; transition:border-color .4s}
+.card::before{content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(247,147,26,.10), transparent 60%); opacity:0; transition:opacity .4s}
+.card:hover{border-color:rgba(247,147,26,.28)}
+.card:hover::before{opacity:1}
+.card-copy{padding:30px 30px 32px; display:flex; flex-direction:column; gap:10px; position:relative}
+.card-viz{position:relative; flex:1; min-height:200px}
+.b-analysis{grid-column:1 / 8; grid-row:1 / 3}
+.b-live{grid-column:8 / 13}
+.b-community{grid-column:8 / 13}
+.b-community .card-viz{min-height:250px}
+.b-live .card-viz{min-height:230px}
+.b-resources{grid-column:1 / 13; flex-direction:row; min-height:280px}
+.b-resources .card-copy{flex:0 0 42%; justify-content:center}
+.b-resources .card-viz{min-height:240px}
+.viz-pad{position:absolute; inset:24px 24px 0 24px}
+.chart-svg{width:100%; height:100%}
+.chart-label{font-family:var(--font); font-size:13px; font-stretch:78%; font-weight:560; fill:var(--muted)}
+.chart-label.o{fill:var(--accent)}
+.live-screen{position:absolute; inset:26px 26px 0; border-radius:14px 14px 0 0; border:1px solid var(--line-2); border-bottom:0; background:linear-gradient(#0d0d0d, #0a0a0a); overflow:hidden}
+.live-bar{display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--line)}
+.live-pill{display:inline-flex; align-items:center; gap:8px; padding:4px 10px 4px 8px; border-radius:999px; background:rgba(247,147,26,.12); color:var(--accent-2); font-size:.8rem; font-weight:600}
+.live-dot{width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 0 rgba(247,147,26,.6); animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(247,147,26,.55)}70%{box-shadow:0 0 0 9px rgba(247,147,26,0)}100%{box-shadow:0 0 0 0 rgba(247,147,26,0)}}
+.live-meta{font-size:.78rem; color:var(--dim); font-stretch:80%}
+.live-wave{display:flex; align-items:center; gap:3px; height:22px; position:absolute; left:14px; bottom:14px}
+.live-wave i{width:3px; border-radius:2px; background:var(--accent); opacity:.7; animation:wave 1.4s ease-in-out infinite}
+@keyframes wave{0%,100%{height:5px}50%{height:20px}}
+.msgs{position:absolute; inset:26px 26px 0; display:flex; flex-direction:column; gap:10px}
+.msg{max-width:84%; padding:12px 14px; border-radius:14px; background:var(--elev); border:1px solid var(--line); font-size:.88rem; line-height:1.45; color:#d6d6d6}
+.msg small{display:block; font-size:.74rem; font-stretch:80%; color:var(--dim); margin-bottom:3px; font-weight:560}
+.msg.me{align-self:flex-end; background:rgba(247,147,26,.10); border-color:rgba(247,147,26,.28)}
+.msg.m2{margin-left:18px}
+.docs{position:absolute; inset:28px 28px 0 0; display:flex; align-items:flex-end; justify-content:flex-end}
+.doc{position:absolute; width:min(270px, 62%); height:190px; border-radius:14px 14px 0 0; border:1px solid var(--line-2); border-bottom:0; background:var(--elev); padding:18px; transition:transform .6s var(--ease)}
+.doc:nth-child(1){right:190px; transform:rotate(-6deg) translateY(28px); background:#131313}
+.doc:nth-child(2){right:96px; transform:rotate(-2deg) translateY(12px); background:#151515}
+.doc:nth-child(3){right:0; background:#1a1a1a}
+.b-resources:hover .doc:nth-child(1){transform:rotate(-9deg) translate(-16px, 18px)}
+.b-resources:hover .doc:nth-child(2){transform:rotate(-3deg) translate(-6px, 4px)}
+.doc .n{font-size:.78rem; font-stretch:78%; color:var(--accent); font-weight:600}
+.doc h4{margin:6px 0 12px; font-size:1.05rem; font-weight:620; font-stretch:106%}
+.doc .rule{height:7px; border-radius:4px; background:rgba(255,255,255,.07); margin-top:8px}
+.doc .rule:nth-of-type(2){width:82%}.doc .rule:nth-of-type(3){width:64%}
+
+/* =========================================================
+   COMMUNITY SHOWCASE
+   ========================================================= */
+.community{background:radial-gradient(900px 500px at 50% 100%, rgba(247,147,26,.09), transparent 70%), var(--bg); overflow:hidden}
+.community .sec-head{grid-template-columns:1fr; text-align:center; justify-items:center}
+.community .sec-head .lead{justify-self:center; margin-top:18px}
+.stage{position:relative; perspective:1600px; margin-inline:auto; max-width:1120px}
+.app{position:relative; display:grid; grid-template-columns:230px 1fr 270px; min-height:560px; border-radius:var(--r-xl); border:1px solid var(--line-2); background:linear-gradient(180deg, #101010, #0a0a0a); box-shadow:0 60px 120px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.02), 0 -1px 0 rgba(255,255,255,.08) inset; transform:rotateX(14deg) scale(.96); transform-origin:50% 0; overflow:hidden}
+.app-side{border-right:1px solid var(--line); padding:20px 14px; display:flex; flex-direction:column; gap:4px; background:#0c0c0c}
+.app-ws{display:flex; align-items:center; gap:10px; padding:4px 8px 18px; font-weight:650; font-stretch:110%}
+.app-ws .brand-mark{width:26px; height:26px}
+.ch-group{font-size:.74rem; font-stretch:78%; color:var(--dim); padding:14px 10px 6px; font-weight:560}
+.ch{display:flex; align-items:center; gap:9px; padding:8px 10px; border-radius:8px; color:var(--muted); font-size:.9rem}
+.ch svg{width:14px; height:14px; flex:none; opacity:.7}
+.ch.on{background:rgba(255,255,255,.05); color:var(--text)}
+.ch .live-dot{margin-left:auto}
+.app-main{display:flex; flex-direction:column; min-width:0}
+.app-top{display:flex; align-items:center; justify-content:space-between; padding:16px 22px; border-bottom:1px solid var(--line)}
+.app-top b{font-weight:620}
+.app-chart{position:relative; height:220px; border-bottom:1px solid var(--line); padding:14px 18px 0}
+.app-feed{padding:18px 22px; display:flex; flex-direction:column; gap:16px}
+.post{display:grid; grid-template-columns:34px 1fr; gap:12px}
+.av{width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-size:.78rem; font-weight:650; background:var(--elev); border:1px solid var(--line-2); color:var(--muted)}
+.av.mentor{background:rgba(247,147,26,.14); color:var(--accent-2); border-color:rgba(247,147,26,.35)}
+.post .who{font-size:.86rem; font-weight:620}
+.post .who span{color:var(--dim); font-weight:450; margin-left:6px; font-size:.78rem}
+.post p{margin:3px 0 0; font-size:.92rem; color:#c9c9c9; line-height:1.5}
+.app-rail{border-left:1px solid var(--line); padding:20px 18px; display:flex; flex-direction:column; gap:14px; background:#0c0c0c}
+.rail-card{border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--card)}
+.rail-card .t{font-size:.76rem; font-stretch:78%; color:var(--dim); font-weight:560}
+.rail-card .v{margin-top:4px; font-weight:620; font-size:.96rem}
+.rail-card .bar{height:5px; border-radius:3px; background:rgba(255,255,255,.07); margin-top:12px; overflow:hidden}
+.rail-card .bar i{display:block; height:100%; width:46%; background:var(--accent); border-radius:inherit}
+.float{position:absolute; z-index:3; border-radius:14px; border:1px solid var(--line-2); background:rgba(17,17,17,.88); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); padding:12px 16px; box-shadow:0 20px 50px -18px rgba(0,0,0,.9); font-size:.9rem; display:flex; align-items:center; gap:10px; will-change:transform}
+.float.f1{left:-64px; top:58%}
+.float.f2{right:-40px; top:-26px; border-color:rgba(247,147,26,.4)}
+.float.f3{right:30%; bottom:-28px}
+.float small{display:block; color:var(--dim); font-size:.74rem; font-stretch:80%}
+.float .ic{width:30px; height:30px; border-radius:9px; display:grid; place-items:center; background:rgba(247,147,26,.14); color:var(--accent)}
+.float .ic svg{width:16px; height:16px}
+.illus-note{text-align:center; color:var(--dim); font-size:.84rem; margin:56px auto 0}
+
+/* =========================================================
+   HOW IT WORKS
+   ========================================================= */
+.how{background:var(--bg-2); border-block:1px solid var(--line)}
+.how-head{display:flex; justify-content:space-between; align-items:end; gap:40px; margin-bottom:72px}
+.steps{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; position:relative}
+.steps-line{position:absolute; left:28px; right:calc((100% - 64px) / 3 - 28px); top:27px; height:1px; background:var(--line-2)}
+.steps-line i{position:absolute; inset:0; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transform-origin:0 50%; transform:scaleX(1); box-shadow:0 0 12px rgba(247,147,26,.6)}
+.step{position:relative; padding-right:20px}
+.step-n{width:56px; height:56px; border-radius:50%; display:grid; place-items:center; background:var(--bg-2); border:1px solid var(--line-2); font-weight:680; font-stretch:115%; position:relative; z-index:1; transition:border-color .5s, color .5s, box-shadow .5s}
+.step.lit .step-n{border-color:var(--accent); color:var(--accent); box-shadow:0 0 0 6px rgba(247,147,26,.08), 0 0 24px -4px rgba(247,147,26,.5)}
+.step h3{margin:28px 0 10px; font-size:clamp(1.35rem, 2.1vw, 1.75rem); font-weight:650; font-stretch:110%; letter-spacing:-.015em}
+
+/* =========================================================
+   TESTIMONIALS
+   ========================================================= */
+.testimonials{padding-block:clamp(88px, 10vw, 132px); overflow:hidden; background:radial-gradient(800px 360px at 50% 50%, rgba(247,147,26,.10), transparent 72%), #030303}
+.ticker-shell{width:100vw; margin-left:calc(50% - 50vw); position:relative}
+.ticker-window{position:relative; overflow:hidden; padding:24px 0; -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)}
+.ticker-track{display:flex; align-items:center; gap:16px; width:max-content; animation:testimonial-ticker 46s linear infinite; will-change:transform}
+.ticker-window:hover .ticker-track{animation-play-state:paused}
+.ticker-card{flex:0 0 314px; min-height:426px; padding:10px 10px 18px; border:1px solid rgba(247,147,26,.25); border-radius:7px; background:linear-gradient(145deg, rgba(247,147,26,.11), rgba(14,14,14,.98) 43%); box-shadow:0 26px 60px -38px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.05); display:flex; flex-direction:column; gap:15px}
+.ticker-head{display:flex; align-items:center; gap:12px; padding:0 8px}
+.ticker-photo{width:100%; aspect-ratio:4 / 3; display:block; object-fit:cover; border-radius:4px; border:1px solid rgba(255,255,255,.08); filter:saturate(.9) contrast(1.04)}
+.ticker-name{display:block; color:#f3f3f5; font-weight:800; font-size:1.12rem; line-height:1.15; letter-spacing:-.035em}
+.ticker-stars{display:block; margin-top:4px; color:var(--accent); font-size:.86rem; letter-spacing:.08em}
+.ticker-quote{margin:0; padding:0 8px; color:#c6c1ba; font-size:.91rem; line-height:1.38; letter-spacing:-.02em}
+.ticker-time{margin:auto 8px 0; color:#92877a; font-size:.8rem}
+@keyframes testimonial-ticker{to{transform:translateX(calc(-50% - 8px))}}
+
+/* =========================================================
+   INCLUDED
+   ========================================================= */
+.included{background:linear-gradient(var(--bg), var(--bg-2))}
+.inc-grid{display:grid; grid-template-columns:5fr 7fr; gap:clamp(40px, 7vw, 110px); align-items:start}
+.inc-left .lead{margin-top:22px}
+.pass{margin-top:48px; aspect-ratio:1.586; max-width:420px; border-radius:10px; position:relative; overflow:hidden; padding:26px; display:flex; flex-direction:column; justify-content:space-between; background:
+  radial-gradient(120% 90% at 100% 0%, rgba(247,147,26,.28), transparent 55%),
+  linear-gradient(135deg, #1a1a1a, #0d0d0d 60%); border:1px solid rgba(255,255,255,.12); box-shadow:0 40px 80px -30px rgba(0,0,0,.9), 0 0 60px -30px rgba(247,147,26,.5); transform:rotate(-3deg)}
+.pass::after{content:""; position:absolute; inset:0; background:repeating-linear-gradient(90deg, rgba(255,255,255,.018) 0 1px, transparent 1px 4px); pointer-events:none}
+.pass-top{display:flex; justify-content:space-between; align-items:center}
+.pass-top .tag{color:#bdbdbd}
+.pass-sym{position:absolute; right:-8%; bottom:-18%; width:56%; color:rgba(247,147,26,.16)}
+.pass-logo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; opacity:.9; mix-blend-mode:screen}
+.pass-name{font-size:1.5rem; font-weight:680; font-stretch:115%; letter-spacing:-.015em; position:relative; z-index:1}
+.inc-list{list-style:none; margin:0; padding:0; border-top:1px solid var(--line)}
+.inc-list li{display:grid; grid-template-columns:36px 1fr auto; gap:18px; padding:24px 6px; border-bottom:1px solid var(--line); align-items:start; transition:background-color .3s; border-radius:4px}
+.inc-list li:hover{background:rgba(255,255,255,.02)}
+.inc-list h3{margin:0 0 4px; font-size:1.14rem; font-weight:620; font-stretch:105%}
+.inc-list p{margin:0; color:var(--muted); font-size:.96rem}
+.chk{width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:rgba(247,147,26,.14); color:var(--accent); margin-top:2px}
+.chk svg{width:14px}
+.chk.pending{background:transparent; border:1px dashed rgba(255,255,255,.28); color:var(--dim)}
+.status{font-size:.8rem; font-stretch:80%; font-weight:600; padding:4px 10px; border-radius:999px; white-space:nowrap; margin-top:3px}
+.status.in{color:var(--accent-2); background:rgba(247,147,26,.10)}
+.status.tbc{color:var(--muted); border:1px dashed var(--line-2)}
+.inc-legend{display:flex; flex-wrap:wrap; gap:18px; margin-top:20px; color:var(--dim); font-size:.86rem}
+.inc-legend span{display:inline-flex; align-items:center; gap:8px}
+
+/* =========================================================
+   PRICING
+   ========================================================= */
+.pricing{background:radial-gradient(800px 520px at 72% 50%, rgba(247,147,26,.10), transparent 70%), var(--bg-2); border-top:1px solid var(--line)}
+.price-grid{display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px, 6vw, 96px); align-items:center}
+.price-left .lead{margin-top:22px}
+.value-pts{list-style:none; margin:36px 0 0; padding:0; display:grid; gap:14px}
+.value-pts li{display:flex; gap:12px; align-items:baseline; color:#cfcfcf}
+.value-pts li::before{content:""; width:16px; height:1px; background:var(--accent); flex:none; transform:translateY(-4px)}
+.price-card{position:relative; border-radius:8px; padding:clamp(28px, 3.6vw, 44px); background:linear-gradient(180deg, #141414, #0e0e0e); border:1px solid rgba(247,147,26,.45); box-shadow:0 0 0 6px rgba(247,147,26,.04), 0 40px 100px -40px rgba(247,147,26,.45)}
+.price-card::before{content:""; position:absolute; left:12%; right:12%; top:-1px; height:1px; background:linear-gradient(90deg, transparent, var(--accent-2), transparent)}
+.price-name{display:flex; align-items:center; gap:12px; font-weight:640; font-stretch:108%; font-size:1.1rem}
+.price-logo{width:46px; height:36px; object-fit:cover; object-position:center; border-radius:3px}
+.price-row{display:flex; align-items:baseline; flex-wrap:wrap; gap:12px; margin:24px 0 6px}
+.price-amt{font-size:clamp(3rem, 6vw, 4.4rem); font-weight:720; font-stretch:112%; letter-spacing:-.03em; line-height:1}
+.price-amt.placeholder{font-size:clamp(2rem, 4vw, 2.8rem); padding:.12em .4em; line-height:1.1}
+.price-bill{color:var(--muted)}
+.price-desc{color:var(--muted); margin:14px 0 24px; font-size:.98rem}
+.price-feats{list-style:none; margin:0; padding:22px 0; border-block:1px solid var(--line); display:grid; gap:12px}
+.price-feats li{display:flex; gap:12px; align-items:center; font-size:.98rem}
+.price-feats .chk{width:22px; height:22px; margin:0}
+.price-feats .chk svg{width:11px}
+.terms{margin:20px 0 26px; display:grid; gap:8px; font-size:.9rem}
+.terms div{display:flex; justify-content:space-between; gap:16px; color:var(--muted)}
+.terms dt,.terms dd{margin:0}
+.terms dd{text-align:right; color:#cfcfcf}
+.price-card .btn{width:100%; --h:58px; font-size:1.06rem}
+.reassure{margin:14px 0 0; text-align:center; color:var(--dim); font-size:.86rem}
+.checkout-note{margin:14px 0 0; padding:12px 14px; border-radius:4px; background:rgba(247,147,26,.08); border:1px dashed rgba(247,147,26,.45); color:var(--accent-2); font-size:.88rem; display:none}
+.checkout-note.show{display:block}
+
+
+/* Optional sample upsells */
+.upsells{margin:26px 0 4px;padding:20px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.018)}
+.upsells-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px}
+.upsells-head h3{margin:0;font-size:1rem;font-weight:700}
+.upsells-head span{font-size:.76rem;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.upsell-option{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-top:1px solid var(--line);cursor:pointer}
+.upsell-option input{appearance:none;flex:none;width:19px;height:19px;margin:2px 0 0;border:1px solid var(--line-2);border-radius:3px;background:#090909;cursor:pointer;display:grid;place-items:center}
+.upsell-option input:checked{background:var(--accent);border-color:var(--accent)}
+.upsell-option input:checked::after{content:"✓";font-size:13px;font-weight:800;color:#170d02}
+.upsell-copy{flex:1;min-width:0}
+.upsell-name{display:block;font-size:.94rem;font-weight:700;line-height:1.35}
+.upsell-desc{display:block;margin-top:4px;color:var(--muted);font-size:.82rem;line-height:1.45}
+.upsell-price{white-space:nowrap;font-weight:750;color:var(--accent-2);font-size:.94rem}
+.upsell-total{display:flex;justify-content:space-between;gap:12px;padding-top:16px;margin-top:2px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+.upsell-total strong{color:var(--text);font-size:1rem}
+.upsell-note{margin:10px 0 0;color:var(--dim);font-size:.76rem;line-height:1.45}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+.faq-section{background:radial-gradient(780px 460px at 86% 14%, rgba(247,147,26,.11), transparent 68%), linear-gradient(180deg, #090909, #050505)}
+.faq-title{margin:0 0 34px; font-size:clamp(2.2rem, 4.2vw, 3.55rem); font-weight:750; letter-spacing:-.065em; line-height:1.02}
+.faq-list{display:grid; gap:12px; max-width:1040px}
+.qa{position:relative; overflow:hidden; border:1px solid rgba(255,255,255,.10); border-radius:9px; background:linear-gradient(115deg, rgba(255,255,255,.055), rgba(255,255,255,.018)); box-shadow:inset 0 1px 0 rgba(255,255,255,.035), 0 16px 34px -30px rgba(0,0,0,.95); transition:border-color .35s var(--ease), background-color .35s var(--ease), transform .35s var(--ease)}
+.qa::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:0; background:radial-gradient(520px circle at var(--faq-x, 18%) 0%, rgba(247,147,26,.15), transparent 58%); transition:opacity .35s var(--ease)}
+.qa:hover{border-color:rgba(247,147,26,.35); transform:translateY(-1px)}
+.qa:hover::before,.qa:has(button[aria-expanded="true"])::before{opacity:1}
+.qa:has(button[aria-expanded="true"]){border-color:rgba(247,147,26,.48); background:linear-gradient(115deg, rgba(247,147,26,.12), rgba(19,16,12,.88) 48%, rgba(255,255,255,.025))}
+.qa button{position:relative; z-index:1; width:100%; display:flex; justify-content:space-between; align-items:center; gap:24px; text-align:left; color:var(--text); background:none; border:0; padding:22px 24px; cursor:pointer; font-size:clamp(1rem, 1.35vw, 1.15rem); font-weight:650; letter-spacing:-.035em; transition:color .25s}
+.qa button:hover{color:var(--accent-2)}
+.faq-question{display:flex; align-items:center; gap:18px; min-width:0}
+.faq-number{width:32px; color:var(--accent); font-size:.76rem; font-weight:800; letter-spacing:.08em; flex:none}
+.qa .pm{width:34px; height:34px; border:1px solid rgba(255,255,255,.18); border-radius:50%; flex:none; position:relative; color:var(--text); background:rgba(255,255,255,.03); transition:transform .35s var(--ease), border-color .3s, background-color .3s, color .3s}
+.qa .pm::before,.qa .pm::after{content:""; position:absolute; left:10px; top:15px; width:12px; height:1.5px; background:currentColor; transition:transform .35s var(--ease)}
+.qa .pm::before{transform:rotate(0)}
+.qa .pm::after{transform:rotate(90deg)}
+.qa button[aria-expanded="true"] .pm{border-color:var(--accent); background:var(--accent); color:#1d1002; transform:rotate(90deg); box-shadow:0 0 22px -4px rgba(247,147,26,.55)}
+.qa button[aria-expanded="true"] .pm::after{transform:rotate(0)}
+.qa-panel{position:relative; z-index:1; display:grid; grid-template-rows:0fr; transition:grid-template-rows .42s var(--ease)}
+.qa-panel.open{grid-template-rows:1fr}
+.qa-panel > div{overflow:hidden}
+.qa-panel p{position:relative; margin:0 24px 0 74px; padding:0 20px 24px; color:#d8d5cf; max-width:70ch; font-size:.96rem; line-height:1.55; letter-spacing:-.02em; border-left:1px solid rgba(247,147,26,.55)}
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
+.final{position:relative; overflow:hidden; text-align:center; padding-block:clamp(120px, 15vw, 220px); isolation:isolate; border-top:1px solid var(--line)}
+.final-grid{position:absolute; left:-20%; right:-20%; bottom:-10%; height:60%; z-index:-2; background-image:linear-gradient(rgba(247,147,26,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(247,147,26,.16) 1px, transparent 1px); background-size:64px 64px; transform:perspective(600px) rotateX(62deg); transform-origin:50% 100%; -webkit-mask-image:linear-gradient(transparent, #000 60%); mask-image:linear-gradient(transparent, #000 60%)}
+.final-horizon{position:absolute; left:0; right:0; bottom:17%; height:1px; z-index:-1; background:linear-gradient(90deg, transparent, var(--accent), transparent); box-shadow:0 0 40px 8px rgba(247,147,26,.25)}
+.final h2{font-size:clamp(2.8rem, 7.4vw, 6.4rem)}
+.final .lead{margin:24px auto 0; text-align:center}
+.final .btn{margin-top:40px; --h:60px; padding:0 34px; font-size:1.08rem}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+footer{border-top:1px solid var(--line); background:var(--bg); padding:72px 0 calc(40px + env(safe-area-inset-bottom,0px))}
+.foot-grid{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px}
+.foot-grid h4{margin:0 0 14px; font-size:.86rem; font-stretch:80%; color:var(--dim); font-weight:600; letter-spacing:.02em}
+.foot-grid ul{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+.foot-grid a{color:var(--muted); text-decoration:none; font-size:.95rem; transition:color .2s}
+.foot-grid a:hover{color:var(--text)}
+.foot-grid .na{color:var(--dim); font-size:.95rem}
+.foot-grid .na small{display:block; font-size:.76rem; color:#4a4a4a}
+.foot-desc{color:var(--muted); font-size:.95rem; margin:16px 0 0; max-width:38ch}
+.disclaimer{margin-top:56px; padding-top:28px; border-top:1px solid var(--line); color:#6d6d6d; font-size:.84rem; line-height:1.65; display:grid; grid-template-columns:1fr auto; gap:40px}
+.disclaimer p{margin:0; max-width:92ch}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:1080px){
+  .nav-links a{padding:8px 10px}
+  .app{grid-template-columns:200px 1fr}
+  .app-rail{display:none}
+  .float.f1{left:-12px}
+  .float.f2{right:-8px}
+}
+@media (max-width:960px){
+  .nav-links{display:none}
+  .burger{display:block}
+  .nav-cta .btn{display:none}
+  .sec-head{grid-template-columns:1fr; gap:18px}
+  .sec-head .lead{justify-self:start}
+  .problem-grid,.inc-grid,.price-grid{grid-template-columns:1fr}
+  .problem-left{position:static}
+  .noise-svg{max-width:520px}
+  .bento{grid-template-columns:1fr 1fr}
+  .b-analysis{grid-column:1 / 3; grid-row:auto; min-height:460px}
+  .b-live,.b-community{grid-column:auto}
+  .b-resources{grid-column:1 / 3}
+  .stats ul{grid-template-columns:1fr 1fr}
+  .stats li:nth-child(3){border-left:0; padding-left:0}
+  .stats li:nth-child(n+3){border-top:1px solid var(--line)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid > div:first-child{grid-column:1 / -1}
+  .how-head{flex-direction:column; align-items:flex-start; gap:18px}
+}
+@media (min-width:901px) and (max-width:1080px){
+  .hero-copy{max-width:540px}
+}
+@media (max-width:900px){
+  .hero{align-items:flex-end; min-height:max(680px, 100svh)}
+  .hero::after{background:linear-gradient(0deg, var(--bg) 0%, rgba(5,5,5,.92) 38%, rgba(5,5,5,.35) 60%, rgba(5,5,5,0) 78%)}
+  .hero-in{padding-top:calc(var(--nav-h) + min(76vw, 330px)); padding-bottom:56px}
+  .hero h1{font-size:clamp(2.6rem, 7vw, 4rem)}
+  .coin-fallback{left:50%; right:auto; top:calc(var(--nav-h) + min(38vw, 165px)); width:min(62vw, 270px); transform:translate(-50%, -50%)}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .hero h1{font-size:clamp(2.6rem, 11.5vw, 3.6rem)}
+  .hero-ctas .btn{flex:1 1 100%}
+  .stats li{padding:22px 16px}
+  .stats li:nth-child(odd){padding-left:0}
+  .problem-list li{grid-template-columns:1fr; gap:6px; padding:26px 0}
+  .bento{grid-template-columns:1fr}
+  .b-analysis,.b-live,.b-community,.b-resources{grid-column:auto}
+  .b-analysis{min-height:420px}
+  .b-resources{flex-direction:column}
+  .b-resources .card-copy{flex:none}
+  .stage{perspective:none}
+  .app{grid-template-columns:1fr; transform:none; min-height:0}
+  .app-side{display:none}
+  .app-chart{height:180px}
+  .float{display:none}
+  .float.f2{display:flex; position:relative; right:auto; top:auto; margin:0 auto 16px; width:max-content; max-width:100%}
+  .steps{grid-template-columns:1fr; gap:40px; padding-left:76px}
+  .steps-line{left:27px; right:auto; top:28px; bottom:auto; height:calc(100% - 120px); width:1px}
+  .steps-line i{transform-origin:50% 0; background:linear-gradient(var(--accent), var(--accent-2))}
+  .step{padding-right:0}
+  .step-n{position:absolute; left:-76px; top:-8px}
+  .step h3{margin-top:0}
+  .ticker-window{padding-block:12px}
+  .ticker-card{flex-basis:min(78vw, 286px); min-height:396px; padding:8px 8px 16px}
+  .ticker-track{gap:12px; animation-duration:38s}
+  .inc-list li{grid-template-columns:32px 1fr; gap:14px}
+  .inc-list .status{grid-column:2; justify-self:start; margin-top:4px}
+  .terms div{flex-direction:column; gap:2px}
+  .terms dd{text-align:left}
+  .faq-title{font-size:clamp(1.8rem, 9vw, 2.4rem); margin-bottom:20px}
+  .qa button{padding-block:14px; font-size:1rem}
+  .qa-panel p{padding-right:8px; font-size:.92rem}
+  .foot-grid{grid-template-columns:1fr 1fr; gap:32px}
+  .disclaimer{grid-template-columns:1fr; gap:16px}
+}
+@media (max-width:380px){
+  .stats ul{grid-template-columns:1fr}
+  .stats li{border-left:0!important; padding-left:0!important}
+  .stats li + li{border-top:1px solid var(--line)}
+}
+@media (hover:none){
+  .card:hover{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important}
+  .hero-streaks{display:none}
+}
+.js-anim [data-hero]{opacity:0}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ======================= NAV ======================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Orka crypto home">
+      <img class="brand-logo" src="orka-assets/orka-crypto-orbital-logo.png" alt="Orka crypto">
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#benefits" data-nav="benefits">Benefits</a></li>
+        <li><a href="#community" data-nav="community">Community</a></li>
+        <li><a href="#results" data-nav="results">Results</a></li>
+        <li><a href="#membership" data-nav="membership">Membership</a></li>
+        <li><a href="#faq" data-nav="faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary btn-sm" href="#membership">Join Now</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <a class="ml" href="#benefits">Benefits</a>
+  <a class="ml" href="#community">Community</a>
+  <a class="ml" href="#results">Results</a>
+  <a class="ml" href="#membership">Membership</a>
+  <a class="ml" href="#faq">FAQ</a>
+  <a class="btn btn-primary" href="#membership">Join Now <span class="arr" aria-hidden="true">→</span></a>
+</div>
+
+<!-- Shared Orka mark -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="mark" fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round">
+      <circle cx="55" cy="100" r="38"/>
+      <path d="M28 132L82 68"/>
+    </g>
+  </defs>
+</svg>
+
+<main id="main">
+<!-- ======================= HERO ======================= -->
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <canvas class="hero-canvas" id="coin-canvas" aria-hidden="true"></canvas>
+  <svg class="coin-fallback" viewBox="0 0 400 400" aria-hidden="true">
+    <defs>
+      <radialGradient id="cg" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#ffd08a"/><stop offset=".45" stop-color="#f7931a"/><stop offset="1" stop-color="#7a3f02"/></radialGradient>
+    </defs>
+    <circle cx="200" cy="200" r="190" fill="url(#cg)"/>
+    <circle cx="200" cy="200" r="160" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="3"/>
+    <svg x="128" y="80" width="144" height="240" viewBox="0 0 110 200" style="color:#ffe1b0"><use href="#mark"/></svg>
+  </svg>
+  <div class="hero-streaks" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <img class="hero-logo" src="orka-assets/orka-crypto-orbital-logo.png" alt="Orka crypto" data-hero>
+      <h1 class="h-display" id="hero-title" data-hero>
+        <span class="ln">Learn crypto.</span>
+        <span class="ln">Trade with <span class="o">clarity.</span></span>
+      </h1>
+      <p class="lead" data-hero>Structured crypto education, live market breakdowns and a private community to help you build a repeatable process.</p>
+      <div class="hero-ctas" data-hero>
+        <a class="btn btn-primary" href="#membership">Get Instant Access <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#benefits">Explore the Membership</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= STATS ======================= -->
+<!-- EDIT: When real figures exist, set CONFIG.stats in the script at the bottom. Never publish invented numbers. -->
+<section class="stats" aria-label="Membership at a glance">
+  <div class="wrap">
+    <ul id="stats-list">
+      <li><span class="stat-v">Crypto <em>focus</em></span><span class="stat-l">Core concepts and market structure explained with clarity, not noise.</span></li>
+      <li><span class="stat-v">Live</span><span class="stat-l">Sessions where price action is explained as it happens.</span></li>
+      <li><span class="stat-v">Private</span><span class="stat-l">A members-only space to ask questions and review decisions.</span></li>
+      <li><span class="stat-v">Structured</span><span class="stat-l">Lessons ordered from market basics to building a trade plan.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= PROBLEM ======================= -->
+<section class="sec problem" id="problem" aria-labelledby="problem-title">
+  <div class="wrap problem-grid">
+    <div class="problem-left">
+      <h2 class="h-section" id="problem-title" data-reveal>Too much noise. <span class="o">Not enough clarity.</span></h2>
+      <p class="lead">Crypto moves around the clock, and so does the commentary about it. Most traders don't lack information. They lack a way to filter it.</p>
+      <svg class="noise-svg" viewBox="0 0 440 260" aria-hidden="true">
+        <g stroke="rgba(255,255,255,.06)" stroke-width="1">
+          <line x1="0" y1="52" x2="440" y2="52"/><line x1="0" y1="104" x2="440" y2="104"/><line x1="0" y1="156" x2="440" y2="156"/><line x1="0" y1="208" x2="440" y2="208"/>
+        </g>
+        <path id="noise-path" d="M0 150 L14 92 L22 188 L36 60 L44 170 L58 110 L66 214 L80 70 L92 160 L104 40 L114 196 L128 98 L138 178 L150 66 L160 150 L172 118 L182 200 L196 84 L206 168" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-linejoin="round"/>
+        <g id="struct-grid" stroke="rgba(247,147,26,.28)" stroke-dasharray="3 5" stroke-width="1">
+          <line x1="206" y1="78" x2="440" y2="78"/><line x1="206" y1="168" x2="440" y2="168"/>
+        </g>
+        <path id="struct-path" d="M206 168 L236 140 L254 156 L282 118 L300 132 L328 96 L346 110 L374 80 L392 92 L440 60" fill="none" stroke="#F7931A" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle id="struct-dot" cx="440" cy="60" r="4" fill="#FFB347"/>
+        <text x="0" y="252" class="chart-label">Noise</text>
+        <text x="440" y="252" text-anchor="end" class="chart-label o">Structure</text>
+      </svg>
+    </div>
+    <div>
+      <ul class="problem-list">
+        <li>
+          <span class="k">01</span>
+          <div><h3>Conflicting opinions</h3><p class="body">Ten analysts, ten directions. Without a framework of your own, every opinion sounds equally convincing.</p></div>
+        </li>
+        <li>
+          <span class="k">02</span>
+          <div><h3>Emotional decisions</h3><p class="body">Entries driven by fear of missing out, exits driven by panic. The plan changes with every candle.</p></div>
+        </li>
+        <li>
+          <span class="k">03</span>
+          <div><h3>Unclear market structure</h3><p class="body">Without reading trend, ranges and key levels, price movement looks random, and random markets can't be planned for.</p></div>
+        </li>
+        <li>
+          <span class="k">04</span>
+          <div><h3>Learning in isolation</h3><p class="body">No one reviews your decisions, so the same mistakes repeat quietly, trade after trade.</p></div>
+        </li>
+      </ul>
+      <div class="shift">
+        <p><strong>Structure doesn't remove risk.</strong> It gives you a repeatable way to think about it: a curriculum to follow, one market to practise on, and people to discuss your decisions with.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= BENEFITS ======================= -->
+<section class="sec" id="benefits" aria-labelledby="benefits-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-section" id="benefits-title" data-reveal>Everything you need to <span class="o">read the market</span> with intent.</h2>
+      <p class="lead">Four parts, built to work together. Learn the concept, watch it applied live, discuss it, then review it.</p>
+    </div>
+    <div class="bento">
+      <!-- A. Analysis -->
+      <article class="card b-analysis">
+        <div class="card-viz"><div class="viz-pad"><svg class="chart-svg" id="chart-analysis" viewBox="0 0 640 420" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg></div></div>
+        <div class="card-copy">
+          <h3 class="h-card">Crypto breakdowns that explain the why</h3>
+          <p class="body">Educational walkthroughs of price action, market structure, key levels and the developments shaping crypto, so you understand the reasoning, not just the conclusion.</p>
+        </div>
+      </article>
+      <!-- B. Live -->
+      <article class="card b-live">
+        <div class="card-viz">
+          <div class="live-screen">
+            <div class="live-bar"><span class="live-pill"><span class="live-dot"></span>Live</span><span class="live-meta">CRYPTO / USD</span></div>
+            <svg class="chart-svg" id="chart-live" viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true" style="height:calc(100% - 46px)"></svg>
+            <div class="live-wave" aria-hidden="true"><i style="animation-delay:0s"></i><i style="animation-delay:.15s"></i><i style="animation-delay:.3s"></i><i style="animation-delay:.45s"></i><i style="animation-delay:.6s"></i><i style="animation-delay:.2s"></i></div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <h3 class="h-card">Watch concepts meet real price</h3>
+          <p class="body">Market movements and trading ideas explained in real time, with room for your questions.</p>
+        </div>
+      </article>
+      <!-- C. Community -->
+      <article class="card b-community">
+        <div class="card-viz">
+          <div class="msgs" aria-hidden="true">
+            <div class="msg"><small>Member</small>Is this a retest of the range high or a failed breakout?</div>
+            <div class="msg me"><small>Mentor</small>Wait for the close. Mark both scenarios first.</div>
+            <div class="msg m2"><small>Member</small>Adding it to my review notes.</div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <h3 class="h-card">Traders studying the same market</h3>
+          <p class="body">Discuss ideas, ask questions and share observations with members working on the same skills.</p>
+        </div>
+      </article>
+      <!-- D. Resources -->
+      <article class="card b-resources">
+        <div class="card-copy">
+          <h3 class="h-card">A curriculum you can return to</h3>
+          <p class="body">Structured lessons, trading frameworks and reference material designed to build understanding and consistency over time.</p>
+        </div>
+        <div class="card-viz">
+          <div class="docs" aria-hidden="true">
+            <div class="doc"><span class="n">Lesson 1</span><h4>How crypto markets work</h4><div class="rule"></div><div class="rule"></div><div class="rule"></div></div>
+            <div class="doc"><span class="n">Lesson 2</span><h4>Reading market structure</h4><div class="rule"></div><div class="rule"></div><div class="rule"></div></div>
+            <div class="doc"><span class="n">Lesson 3</span><h4>Risk per trade, defined</h4><div class="rule"></div><div class="rule"></div><div class="rule"></div></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= COMMUNITY ======================= -->
+<!-- EDIT: CONFIG.platformName controls the workspace label. Don't name a platform (e.g. Discord) unless confirmed. -->
+<section class="sec community" id="community" aria-labelledby="community-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="h-section" id="community-title" data-reveal>See where you'll <span class="o">spend your time.</span></h2>
+      <p class="lead">One members' space organised around how traders actually work: study, watch, discuss, review.</p>
+    </div>
+    <div class="stage" id="stage">
+      <div class="float f1" data-depth="1.2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg></span><div><small>Key level marked</small>Range high retest</div></div>
+      <div class="float f2" data-depth="-1"><span class="live-dot"></span><div><small>Starting now</small>Live market session</div></div>
+      <div class="float f3" data-depth=".8"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h11l3 3v13H5z"/><path d="M9 10h6M9 14h6"/></svg></span><div><small>New lesson added</small>Building a trade plan</div></div>
+      <div class="app" id="app" role="img" aria-label="Illustrative preview of the members' space: channel list, a crypto chart with marked levels, and a mentor discussing the market with members.">
+        <aside class="app-side">
+          <div class="app-ws"><img class="price-logo" src="orka-assets/orka-crypto-orbital-logo.png" alt=""><span data-cfg="platformName">Members' space</span></div>
+          <div class="ch-group">Learn</div>
+          <div class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/></svg>start-here</div>
+          <div class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/></svg>lessons</div>
+          <div class="ch-group">Market</div>
+          <div class="ch on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/></svg>market-structure</div>
+          <div class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/></svg>key-levels</div>
+          <div class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v10H4zM8 20h8"/></svg>live-room<span class="live-dot"></span></div>
+          <div class="ch-group">Members</div>
+          <div class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/></svg>trade-reviews</div>
+          <div class="ch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16"/></svg>questions</div>
+        </aside>
+        <div class="app-main">
+          <div class="app-top"><b>market-structure</b><span class="tag">Daily chart walkthrough</span></div>
+          <div class="app-chart"><svg class="chart-svg" id="chart-app" viewBox="0 0 640 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg></div>
+          <div class="app-feed">
+            <div class="post"><span class="av mentor">M</span><div><div class="who">Mentor<span>pinned</span></div><p>Price is back inside last week's range. Until the range high is reclaimed on a daily close, I'm treating this as rotation, not trend.</p></div></div>
+            <div class="post"><span class="av">A</span><div><div class="who">Member</div><p>So the push above it on Tuesday was a deviation?</p></div></div>
+            <div class="post"><span class="av mentor">M</span><div><div class="who">Mentor</div><p>Possibly. Mark where it failed. We'll review it together in the live session.</p></div></div>
+          </div>
+        </div>
+        <aside class="app-rail">
+          <div class="rail-card"><div class="t">Next live session</div><div class="v">Market structure review</div></div>
+          <div class="rail-card"><div class="t">Your curriculum</div><div class="v">Module 2 in progress</div><div class="bar"><i></i></div></div>
+          <div class="rail-card"><div class="t">Resource</div><div class="v">Trade plan template</div></div>
+          <div class="rail-card"><div class="t">Your notes</div><div class="v">3 trades to review</div></div>
+        </aside>
+      </div>
+    </div>
+    <p class="illus-note">Illustrative preview. The final platform, channels and layout may differ.</p>
+  </div>
+</section>
+
+<!-- ======================= HOW IT WORKS ======================= -->
+<section class="sec how" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <div class="how-head">
+      <h2 class="h-section" id="how-title" data-reveal>How it works</h2>
+    </div>
+    <ol class="steps" id="steps">
+      <li class="steps-line" aria-hidden="true"><i id="steps-fill"></i></li>
+      <li class="step"><span class="step-n">01</span><h3>Join</h3><p class="body">Get access to the membership, its community and every available resource.</p></li>
+      <li class="step"><span class="step-n">02</span><h3>Learn</h3><p class="body">Work through the curriculum, follow market breakdowns and attend live sessions.</p></li>
+      <li class="step"><span class="step-n">03</span><h3>Practise and improve</h3><p class="body">Apply what you learn, review your decisions and bring them to the community for discussion.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= TESTIMONIALS ======================= -->
+<section class="testimonials" id="results" aria-labelledby="results-title">
+  <h2 class="sr-only" id="results-title">Member feedback</h2>
+  <div class="ticker-shell">
+    <div class="ticker-window" aria-label="Placeholder member testimonials">
+      <div class="ticker-track">
+        <article class="ticker-card"><img class="ticker-photo" src="orka-assets/testimonial-01.png" alt="Member 01"><header class="ticker-head"><span><b class="ticker-name">Member 01</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+        <article class="ticker-card"><img class="ticker-photo" src="orka-assets/testimonial-02.png" alt="Member 02"><header class="ticker-head"><span><b class="ticker-name">Member 02</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+        <article class="ticker-card"><img class="ticker-photo" src="orka-assets/testimonial-03.png" alt="Member 03"><header class="ticker-head"><span><b class="ticker-name">Member 03</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+        <article class="ticker-card"><img class="ticker-photo" src="orka-assets/testimonial-04.png" alt="Member 04"><header class="ticker-head"><span><b class="ticker-name">Member 04</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+        <article class="ticker-card" aria-hidden="true"><img class="ticker-photo" src="orka-assets/testimonial-01.png" alt=""><header class="ticker-head"><span><b class="ticker-name">Member 01</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+        <article class="ticker-card" aria-hidden="true"><img class="ticker-photo" src="orka-assets/testimonial-02.png" alt=""><header class="ticker-head"><span><b class="ticker-name">Member 02</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+        <article class="ticker-card" aria-hidden="true"><img class="ticker-photo" src="orka-assets/testimonial-03.png" alt=""><header class="ticker-head"><span><b class="ticker-name">Member 03</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+        <article class="ticker-card" aria-hidden="true"><img class="ticker-photo" src="orka-assets/testimonial-04.png" alt=""><header class="ticker-head"><span><b class="ticker-name">Member 04</b><span class="ticker-stars">★★★★★</span></span></header><p class="ticker-quote">“Placeholder feedback for this member will appear here.”</p><p class="ticker-time">Member feedback · 2026</p></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PRICING ======================= -->
+<!-- EDIT: Price, billing, terms and checkout URL live in CONFIG at the bottom of this file. -->
+<section class="sec pricing" id="membership" aria-labelledby="pricing-title">
+  <div class="wrap price-grid">
+    <div class="price-left">
+      <h2 class="h-section" id="pricing-title" data-reveal>One membership. <span class="o">Everything included.</span></h2>
+      <p class="lead">No tiers to compare. One price covers every included item above.</p>
+      <ul class="value-pts">
+        <li>Curriculum, analysis, live sessions and community in one place</li>
+        <li>Built around crypto market structure and decision-making</li>
+        <li>Terms stated clearly before you pay</li>
+      </ul>
+    </div>
+    <div class="price-card" id="price-card">
+      <div class="price-name"><img class="price-logo" src="orka-assets/orka-crypto-orbital-logo.png" alt=""><span data-cfg="membershipName">Orka crypto Membership</span></div>
+      <div class="price-row"><span class="price-amt" id="price-amt">[Price]</span><span class="price-bill" id="price-bill"></span></div>
+      <p class="price-desc">Full access to the crypto curriculum, market breakdowns, live sessions and the private trading community.</p>
+      <ul class="price-feats">
+        <li><span class="chk"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>Structured crypto curriculum</li>
+        <li><span class="chk"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>Market-analysis breakdowns</li>
+        <li><span class="chk"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>Live trading sessions</li>
+        <li><span class="chk"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>Private community access</li>
+        <li><span class="chk"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>Frameworks and templates</li>
+      </ul>
+      <div class="upsells" aria-labelledby="upsells-title">
+        <div class="upsells-head"><h3 id="upsells-title">Customize your package</h3><span>Optional add-ons · Sample</span></div>
+        <label class="upsell-option">
+          <input type="checkbox" class="upsell-check" data-upsell-price="25" aria-label="Add Quick Start Guide for 25 dollars">
+          <span class="upsell-copy"><span class="upsell-name">Quick Start Guide</span><span class="upsell-desc">A concise guide to getting started with the membership resources.</span></span>
+          <span class="upsell-price">+$25</span>
+        </label>
+        <label class="upsell-option">
+          <input type="checkbox" class="upsell-check" data-upsell-price="50" aria-label="Add Trade Planning Templates for 50 dollars">
+          <span class="upsell-copy"><span class="upsell-name">Trade Planning Templates</span><span class="upsell-desc">Sample worksheets for documenting a trade plan and managing risk.</span></span>
+          <span class="upsell-price">+$50</span>
+        </label>
+        <label class="upsell-option">
+          <input type="checkbox" class="upsell-check" data-upsell-price="75" aria-label="Add Market Review Pack for 75 dollars">
+          <span class="upsell-copy"><span class="upsell-name">Market Review Pack</span><span class="upsell-desc">A collection of prompts and checklists for reviewing market conditions.</span></span>
+          <span class="upsell-price">+$75</span>
+        </label>
+        <label class="upsell-option">
+          <input type="checkbox" class="upsell-check" data-upsell-price="100" aria-label="Add 1:1 Strategy Session for 100 dollars">
+          <span class="upsell-copy"><span class="upsell-name">1:1 Strategy Session</span><span class="upsell-desc">A sample one-on-one session to discuss your trading process.</span></span>
+          <span class="upsell-price">+$100</span>
+        </label>
+        <label class="upsell-option">
+          <input type="checkbox" class="upsell-check" data-upsell-price="500" aria-label="Add Premium Trade Review for 500 dollars">
+          <span class="upsell-copy"><span class="upsell-name">Premium Trade Review</span><span class="upsell-desc">An expanded sample review package with detailed feedback and action points.</span></span>
+          <span class="upsell-price">+$500</span>
+        </label>
+        <div class="upsell-total"><span>Package total</span><strong id="package-total">Base price + $0</strong></div>
+        <p class="upsell-note">Sample pricing for demonstration. Select any combination to update the total; connect your checkout before launch.</p>
+      </div>
+      <dl class="terms">
+        <div><dt>Access</dt><dd id="t-access"></dd></div>
+        <div><dt>Renewal</dt><dd id="t-renewal"></dd></div>
+        <div><dt>Refunds and cancellation</dt><dd id="t-refunds"></dd></div>
+      </dl>
+      <a class="btn btn-primary" id="checkout-btn" href="#membership">Get Instant Access <span class="arr" aria-hidden="true">→</span></a>
+      <p class="checkout-note" id="checkout-note" role="status">Checkout isn't connected yet. Add the payment link to CONFIG.checkoutUrl before launch.</p>
+      <p class="reassure" id="reassure" hidden></p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FAQ ======================= -->
+<section class="sec faq-section" id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <h2 class="faq-title" id="faq-title" data-reveal>Frequently asked questions</h2>
+    <div class="faq-list" id="faq-list">
+      <div class="qa"><button aria-expanded="true" aria-controls="qa1" id="qb1"><span class="faq-question"><span class="faq-number">01</span><span>What are we?</span></span><span class="pm" aria-hidden="true"></span></button><div class="qa-panel open" id="qa1" role="region" aria-labelledby="qb1"><div><p>We are a crypto platform built to make accessing, managing, and exploring digital assets simple and secure.</p></div></div></div>
+      <div class="qa"><button aria-expanded="false" aria-controls="qa2" id="qb2"><span class="faq-question"><span class="faq-number">02</span><span>Which cryptocurrencies do you support?</span></span><span class="pm" aria-hidden="true"></span></button><div class="qa-panel" id="qa2" role="region" aria-labelledby="qb2"><div><p>We support a curated range of leading cryptocurrencies and digital assets. Supported assets may vary over time.</p></div></div></div>
+      <div class="qa"><button aria-expanded="false" aria-controls="qa3" id="qb3"><span class="faq-question"><span class="faq-number">03</span><span>How do I buy or trade crypto?</span></span><span class="pm" aria-hidden="true"></span></button><div class="qa-panel" id="qa3" role="region" aria-labelledby="qb3"><div><p>Connect your wallet, select the asset you want, enter your amount, and confirm the transaction. Your transaction is processed on-chain.</p></div></div></div>
+      <div class="qa"><button aria-expanded="false" aria-controls="qa4" id="qb4"><span class="faq-question"><span class="faq-number">04</span><span>Are transactions secure?</span></span><span class="pm" aria-hidden="true"></span></button><div class="qa-panel" id="qa4" role="region" aria-labelledby="qb4"><div><p>Transactions are secured by blockchain technology and verified on-chain. Always double-check wallet addresses and transaction details before confirming.</p></div></div></div>
+      <div class="qa"><button aria-expanded="false" aria-controls="qa5" id="qb5"><span class="faq-question"><span class="faq-number">05</span><span>Are crypto transactions reversible?</span></span><span class="pm" aria-hidden="true"></span></button><div class="qa-panel" id="qa5" role="region" aria-labelledby="qb5"><div><p>No. Once a blockchain transaction has been confirmed, it generally cannot be reversed. Make sure all transaction details are correct before signing.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FINAL CTA ======================= -->
+<section class="final" id="join" aria-labelledby="final-title">
+  <div class="final-grid" aria-hidden="true"></div>
+  <div class="final-horizon" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2 class="h-display" id="final-title" data-reveal>Your next move<br><span class="o">starts here.</span></h2>
+    <p class="lead">Look through what's included, read the terms, and join when it makes sense for you.</p>
+    <a class="btn btn-primary" href="#membership" id="final-cta">Join the Membership <span class="arr" aria-hidden="true">→</span></a>
+  </div>
+</section>
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand footer-brand" href="#top"><img class="brand-logo" src="orka-assets/orka-crypto-orbital-logo.png" alt="Orka crypto"></a>
+        <p class="foot-desc">A crypto education membership: structured lessons, market breakdowns, live sessions and a private community.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul><li><a href="#benefits">Benefits</a></li><li><a href="#community">Community</a></li><li><a href="#results">Results</a></li><li><a href="#membership">Membership</a></li><li><a href="#faq">FAQ</a></li></ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul id="legal-links"></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul id="contact-links"></ul>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <p>Education only. Trading Bitcoin involves substantial risk.</p>
+      <p>© <span id="year"></span> <span data-cfg="brand">Orka crypto</span></p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* =========================================================
+   CONFIG — edit brand facts here. Empty values render as
+   clearly marked placeholders. Never fill in invented data.
+   ========================================================= */
+const CONFIG = {
+  brand: "Orka crypto",
+  membershipName: "Orka crypto Membership",
+  platformName: "Members' space",          // e.g. "Discord" only if confirmed
+  price: "$2,560",
+  billing: "one-time payment",
+  checkoutUrl: "",                         // real checkout / payment link
+  secureCheckoutNote: "",                  // only if accurate, e.g. "Payments processed securely by Razorpay"
+  terms: { access: "", renewal: "", refunds: "" },
+  links: { terms: "", privacy: "", refunds: "" },
+  contactEmail: "",
+  socials: [ /* { label: "Instagram", url: "https://..." } */ ],
+  stats: null  /* when real, e.g. [{ value: 1200, suffix: "+", label: "Active members" }, ...] (4 items) */
+};
+
+(function(){
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = !!(window.gsap && window.ScrollTrigger);
+  if (!hasGsap || reduce) root.classList.remove('js-anim');
+
+  const $ = (s, el=document) => el.querySelector(s);
+  const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+  const ph = (t) => `<span class="placeholder">${t}</span>`;
+
+  /* ---------- Config ---------- */
+  function applyConfig(){
+    $$('[data-cfg]').forEach(el => { const v = CONFIG[el.dataset.cfg]; if (v) el.textContent = v; });
+    $('#year').textContent = new Date().getFullYear();
+    const amt = $('#price-amt');
+    if (CONFIG.price){ amt.textContent = CONFIG.price; } else { amt.classList.add('placeholder'); amt.textContent = '[Price]'; }
+    $('#price-bill').innerHTML = CONFIG.billing ? CONFIG.billing : ph('Monthly or one-time');
+    $('#t-access').innerHTML = CONFIG.terms.access || ph('Confirm');
+    $('#t-renewal').innerHTML = CONFIG.terms.renewal || ph('Confirm');
+    $('#t-refunds').innerHTML = CONFIG.terms.refunds || ph('Confirm');
+    if (CONFIG.secureCheckoutNote){ const r = $('#reassure'); r.textContent = CONFIG.secureCheckoutNote; r.hidden = false; }
+
+    const legal = $('#legal-links');
+    [['Terms and conditions','terms'],['Privacy policy','privacy'],['Refund and cancellation policy','refunds']].forEach(([label,key]) => {
+      const li = document.createElement('li');
+      if (CONFIG.links[key]){ li.innerHTML = `<a href="${CONFIG.links[key]}">${label}</a>`; }
+      else { li.innerHTML = `<span class="na">${label}<small>Page to be added</small></span>`; }
+      legal.appendChild(li);
+    });
+    const contact = $('#contact-links');
+    if (CONFIG.contactEmail){ const li = document.createElement('li'); li.innerHTML = `<a href="mailto:${CONFIG.contactEmail}">${CONFIG.contactEmail}</a>`; contact.appendChild(li); }
+    CONFIG.socials.filter(s => s.url).forEach(s => { const li = document.createElement('li'); li.innerHTML = `<a href="${s.url}" rel="noopener" target="_blank">${s.label}</a>`; contact.appendChild(li); });
+    if (!contact.children.length){ contact.innerHTML = `<li><span class="na">Email and socials<small>To be added</small></span></li>`; }
+
+    if (Array.isArray(CONFIG.stats) && CONFIG.stats.length){
+      $('#stats-list').innerHTML = CONFIG.stats.map(s => `<li><span class="stat-v"><span class="count" data-to="${s.value}">${s.value}</span><em>${s.suffix||''}</em></span><span class="stat-l">${s.label}</span></li>`).join('');
+    }
+  }
+
+
+  /* ---------- Optional sample upsells ---------- */
+  function initUpsells(){
+    const checks = $$('.upsell-check');
+    const total = $('#package-total');
+    if (!total || !checks.length) return;
+    const readBasePrice = () => {
+      const raw = ($('#price-amt')?.textContent || '').replace(/[^0-9.]/g, '');
+      return raw && Number.isFinite(Number(raw)) ? Number(raw) : null;
+    };
+    const formatUsd = value => '$' + value.toLocaleString('en-US', {maximumFractionDigits:2});
+    const update = () => {
+      const base = readBasePrice();
+      const extras = checks.reduce((sum, input) => sum + (input.checked ? Number(input.dataset.upsellPrice || 0) : 0), 0);
+      total.textContent = base === null ? (extras ? formatUsd(extras) + ' add-ons' : 'Base price + $0') : formatUsd(base + extras);
+    };
+    checks.forEach(input => input.addEventListener('change', update));
+    update();
+  }
+
+  /* ---------- Checkout ---------- */
+  function initCheckout(){
+    const btn = $('#checkout-btn'), note = $('#checkout-note');
+    const finalCta = $('#final-cta');
+    if (CONFIG.checkoutUrl){
+      btn.href = CONFIG.checkoutUrl; btn.rel = 'noopener';
+      finalCta.href = '#membership';
+    } else {
+      btn.addEventListener('click', (e) => { e.preventDefault(); note.classList.add('show'); });
+    }
+  }
+
+  /* ---------- Nav ---------- */
+  function initNav(){
+    const nav = $('#nav');
+    const onScroll = () => nav.classList.toggle('scrolled', scrollY > 24);
+    addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+    const links = $$('[data-nav]');
+    const map = new Map(links.map(a => [a.dataset.nav, a]));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting){
+          links.forEach(l => { l.classList.remove('active'); l.removeAttribute('aria-current'); });
+          const a = map.get(en.target.id); if (a){ a.classList.add('active'); a.setAttribute('aria-current','true'); }
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    map.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
+
+    const burger = $('#burger'), menu = $('#mmenu');
+    const setOpen = (open) => {
+      burger.setAttribute('aria-expanded', open); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      menu.classList.toggle('open', open); menu.setAttribute('aria-hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) document.addEventListener('keydown', onKey); else document.removeEventListener('keydown', onKey);
+    };
+    const onKey = (e) => { if (e.key === 'Escape'){ setOpen(false); burger.focus(); } };
+    burger.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
+    $$('a', menu).forEach(a => a.addEventListener('click', () => setOpen(false)));
+    matchMedia('(min-width:961px)').addEventListener('change', (m) => { if (m.matches) setOpen(false); });
+  }
+
+  /* ---------- FAQ ---------- */
+  function initFAQ(){
+    $$('.qa button').forEach(b => b.addEventListener('click', () => {
+      const open = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', !open);
+      document.getElementById(b.getAttribute('aria-controls')).classList.toggle('open', !open);
+    }));
+  }
+
+  /* ---------- Pointer glow on cards ---------- */
+  function initCardGlow(){
+    if (!matchMedia('(hover:hover)').matches) return;
+    $$('.card').forEach(c => c.addEventListener('pointermove', (e) => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }));
+  }
+
+  /* ---------- SVG charts ---------- */
+  function seeded(seed){ return () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+  function candles(n, seed, start, vol, drift){
+    const r = seeded(seed); let p = start; const out = [];
+    for (let i=0;i<n;i++){
+      const o = p; const c = o + (r()-.5+drift)*vol; const h = Math.max(o,c) + r()*vol*.5; const l = Math.min(o,c) - r()*vol*.5;
+      out.push({o,c,h,l}); p = c;
+    }
+    return out;
+  }
+  function drawCandles(svg, data, W, H, opts={}){
+    const pad = opts.pad || 10; const lo = Math.min(...data.map(d=>d.l)), hi = Math.max(...data.map(d=>d.h));
+    const y = v => pad + (1 - (v - lo)/(hi - lo)) * (H - pad*2 - (opts.bottom||0));
+    const bw = W / data.length; let s = '';
+    if (opts.levels){
+      opts.levels.forEach(L => {
+        const yy = y(lo + (hi-lo)*L.at);
+        s += `<line x1="0" x2="${W}" y1="${yy}" y2="${yy}" stroke="${L.color}" stroke-dasharray="4 6" stroke-width="1"/>`;
+        if (L.label){ const left = L.side === 'left'; s += `<text x="${left ? 4 : W-4}" y="${yy-7}" text-anchor="${left ? 'start' : 'end'}" class="chart-label ${L.cls||''}">${L.label}</text>`; }
+      });
+    }
+    let path = '';
+    data.forEach((d,i) => {
+      const x = i*bw + bw/2, up = d.c >= d.o;
+      const col = up ? '#F7931A' : 'rgba(255,255,255,.34)';
+      s += `<g class="cdl" style="--i:${i}"><line x1="${x}" x2="${x}" y1="${y(d.h)}" y2="${y(d.l)}" stroke="${col}" stroke-width="1"/>` +
+           `<rect x="${x - bw*.3}" y="${y(Math.max(d.o,d.c))}" width="${bw*.6}" height="${Math.max(1.5, Math.abs(y(d.o)-y(d.c)))}" rx="1" fill="${up ? col : 'transparent'}" stroke="${col}" stroke-width="1"/></g>`;
+      path += (i?'L':'M') + x.toFixed(1) + ' ' + y((d.o+d.c)/2).toFixed(1);
+    });
+    if (opts.line) s += `<path class="trace" d="${path}" fill="none" stroke="#FFB347" stroke-width="1.6" stroke-opacity=".7" stroke-linejoin="round"/>`;
+    svg.innerHTML = s;
+  }
+  function buildCharts(){
+    drawCandles($('#chart-analysis'), candles(34, 7, 100, 9, .12), 640, 420, {pad:22, line:true, levels:[
+      {at:.86, color:'rgba(247,147,26,.6)', label:'Range high', cls:'o', side:'left'},
+      {at:.38, color:'rgba(255,255,255,.22)', label:'Prior support'},
+      {at:.08, color:'rgba(247,147,26,.35)', label:'Range low'}]});
+    drawCandles($('#chart-live'), candles(28, 21, 50, 5, .06), 400, 140, {pad:14});
+    drawCandles($('#chart-app'), candles(46, 3, 70, 6, .05), 640, 200, {pad:16, line:true, levels:[
+      {at:.78, color:'rgba(247,147,26,.55)', label:'Last week high', cls:'o', side:'left'},
+      {at:.2, color:'rgba(255,255,255,.2)', label:'Last week low'}]});
+  }
+
+  /* =========================================================
+     HERO — Three.js crypto orb
+     ========================================================= */
+  function initHero(){
+    const hero = $('#top'), canvas = $('#coin-canvas');
+    const fail = () => { hero.classList.add('no-webgl'); return null; };
+    if (!window.THREE) return fail();
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, powerPreference:'high-performance'});
+    } catch(e){ return fail(); }
+    if (!renderer.getContext()) return fail();
+
+    const small = matchMedia('(max-width:760px)').matches;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1.5 : 2));
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    renderer.setClearColor(0x000000, 0);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
+    camera.position.set(0, 0, 12);
+
+    /* Environment: a tiny studio of emissive panels, prefiltered for reflections */
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const env = new THREE.Scene();
+    env.add(new THREE.Mesh(new THREE.SphereGeometry(30, 32, 16), new THREE.MeshBasicMaterial({color:0x080604, side:THREE.BackSide})));
+    const panel = (w,h,color,pos) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({color, side:THREE.DoubleSide})); m.position.set(pos[0],pos[1],pos[2]); m.lookAt(0,0,0); env.add(m); };
+    panel(16, 5, 0xffffff, [2, 14, 6]);
+    panel(6, 14, 0xff8410, [-14, 0, 3]);
+    panel(5, 12, 0xffe2b8, [13, 3, 8]);
+    panel(18, 2.5, 0x3a2410, [0, -12, 6]);
+    panel(4, 4, 0xffffff, [-5, 6, 12]);
+    const envRT = pmrem.fromScene(env, .035);
+    scene.environment = envRT.texture;
+    pmrem.dispose();
+
+    /* Materials */
+    const turnedTex = (() => {
+      const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
+      g.fillStyle = '#7a7a7a'; g.fillRect(0,0,512,512);
+      for (let r = 4; r < 256; r += 1.6){ g.strokeStyle = `rgba(${Math.random()<.5?255:0},${Math.random()<.5?255:0},${Math.random()<.5?255:0},${.05 + Math.random()*.08})`; g.beginPath(); g.arc(256,256,r,0,Math.PI*2); g.stroke(); }
+      const t = new THREE.CanvasTexture(c); return t;
+    })();
+    const gold = new THREE.MeshStandardMaterial({color:0xF0A23C, metalness:1, roughness:.3, envMapIntensity:1.25, side:THREE.DoubleSide});
+    const face = new THREE.MeshStandardMaterial({color:0xD9861C, metalness:1, roughness:.42, roughnessMap:turnedTex, envMapIntensity:1.05});
+    const polish = new THREE.MeshStandardMaterial({color:0xFFB650, metalness:1, roughness:.16, envMapIntensity:1.45});
+
+    /* Coin */
+    const coin = new THREE.Group();
+    const prof = [[1.5,.12],[1.56,.135],[1.62,.19],[1.7,.215],[1.78,.2],[1.83,.15],[1.85,.08],[1.85,-.08],[1.83,-.15],[1.78,-.2],[1.7,-.215],[1.62,-.19],[1.56,-.135],[1.5,-.12]].map(p => new THREE.Vector2(p[0], p[1]));
+    const rim = new THREE.Mesh(new THREE.LatheGeometry(prof, 128), gold);
+    rim.rotation.x = Math.PI/2; coin.add(rim);
+    const discGeo = new THREE.CircleGeometry(1.505, 96);
+    const front = new THREE.Mesh(discGeo, face); front.position.z = .12; coin.add(front);
+    const back = new THREE.Mesh(discGeo, face); back.position.z = -.12; back.rotation.y = Math.PI; coin.add(back);
+    const ringGeo = new THREE.TorusGeometry(1.36, .016, 8, 160);
+    [.124, -.124].forEach(z => { const r = new THREE.Mesh(ringGeo, polish); r.position.z = z; coin.add(r); });
+    const dotGeo = new THREE.TorusGeometry(1.25, .006, 6, 160);
+    [.124, -.124].forEach(z => { const r = new THREE.Mesh(dotGeo, gold); r.position.z = z; coin.add(r); });
+
+    /* Reeded edge (instanced) */
+    const REEDS = 140;
+    const reed = new THREE.InstancedMesh(new THREE.BoxGeometry(.026, .03, .17), gold, REEDS);
+    const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(1,1,1), pos = new THREE.Vector3();
+    for (let i=0;i<REEDS;i++){
+      const a = i / REEDS * Math.PI*2;
+      pos.set(Math.cos(a)*1.858, Math.sin(a)*1.858, 0);
+      q.setFromAxisAngle(new THREE.Vector3(0,0,1), a + Math.PI/2);
+      m4.compose(pos, q, sc); reed.setMatrixAt(i, m4);
+    }
+    coin.add(reed);
+
+    /* Embossed Orka mark */
+    const mark = new THREE.Group();
+    const markRing = new THREE.Mesh(new THREE.TorusGeometry(.54, .07, 10, 72), polish);
+    const markSlash = new THREE.Mesh(new THREE.BoxGeometry(.12, 1.12, .07), gold);
+    markSlash.rotation.z = .78; mark.add(markRing, markSlash); mark.position.z = .15; coin.add(mark);
+    const markBack = mark.clone(); markBack.rotation.y = Math.PI; markBack.position.z = -.15; coin.add(markBack);
+
+    const coinPivot = new THREE.Group(); coinPivot.add(coin); scene.add(coinPivot);
+
+    /* Lights */
+    scene.add(new THREE.AmbientLight(0xffffff, .12));
+    const key = new THREE.DirectionalLight(0xfff1dc, 1.6); key.position.set(4, 5, 7); scene.add(key);
+    const rimL = new THREE.DirectionalLight(0xff8a1a, 2.6); rimL.position.set(-5, 1.5, -4); scene.add(rimL);
+    const rimR = new THREE.DirectionalLight(0xffb347, 1.2); rimR.position.set(5, -2, -3); scene.add(rimR);
+
+    /* Glow sprite */
+    const glowTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d'); const gr = g.createRadialGradient(128,128,0,128,128,128); gr.addColorStop(0,'rgba(247,147,26,.9)'); gr.addColorStop(.35,'rgba(247,147,26,.28)'); gr.addColorStop(1,'rgba(247,147,26,0)'); g.fillStyle = gr; g.fillRect(0,0,256,256); return new THREE.CanvasTexture(c); })();
+    const glow = new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex, blending:THREE.AdditiveBlending, transparent:true, depthWrite:false, opacity:.5}));
+    glow.scale.set(8.5, 8.5, 1); glow.position.z = -2; coinPivot.add(glow);
+
+    /* Orbit rings */
+    const orbitMat = new THREE.MeshBasicMaterial({color:0xF7931A, transparent:true, opacity:.14});
+    const orbit1 = new THREE.Mesh(new THREE.TorusGeometry(2.9, .006, 6, 200), orbitMat); orbit1.rotation.set(1.25, .35, 0); coinPivot.add(orbit1);
+    const orbit2 = new THREE.Mesh(new THREE.TorusGeometry(3.4, .004, 6, 200), orbitMat.clone()); orbit2.material.opacity = .08; orbit2.rotation.set(1.1, -.5, .4); coinPivot.add(orbit2);
+
+    /* Distant trading grid + chart line */
+    const grid = new THREE.GridHelper(60, 60, 0xF7931A, 0x3a2a18);
+    grid.material.transparent = true; grid.material.opacity = .16; grid.position.set(0, -3.6, -6); scene.add(grid);
+    const chartPts = []; { const r = seeded(11); let y = -1.2; for (let i=0;i<=120;i++){ y += (r()-.47)*.22; chartPts.push(new THREE.Vector3(-13 + i*.22, y, -8)); } }
+    const chartGeo = new THREE.BufferGeometry().setFromPoints(chartPts);
+    const chartLine = new THREE.Line(chartGeo, new THREE.LineBasicMaterial({color:0xF7931A, transparent:true, opacity:.32}));
+    chartGeo.setDrawRange(0, 0); scene.add(chartLine);
+    const chartPts2 = chartPts.map((p,i) => new THREE.Vector3(p.x, p.y - 1.1 + Math.sin(i*.21)*.25, -9));
+    const chartGeo2 = new THREE.BufferGeometry().setFromPoints(chartPts2);
+    const chartLine2 = new THREE.Line(chartGeo2, new THREE.LineBasicMaterial({color:0xffffff, transparent:true, opacity:.08}));
+    chartGeo2.setDrawRange(0, 0); scene.add(chartLine2);
+
+    /* Particles */
+    const N = small ? 180 : 520;
+    const pGeo = new THREE.BufferGeometry(); const pArr = new Float32Array(N*3); const pSpd = new Float32Array(N);
+    for (let i=0;i<N;i++){ pArr[i*3] = (Math.random()-.5)*24; pArr[i*3+1] = (Math.random()-.5)*14; pArr[i*3+2] = -9 + Math.random()*10; pSpd[i] = .05 + Math.random()*.18; }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pArr, 3));
+    const dotTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'); const gr = g.createRadialGradient(32,32,0,32,32,32); gr.addColorStop(0,'rgba(255,220,170,1)'); gr.addColorStop(.4,'rgba(255,179,71,.5)'); gr.addColorStop(1,'rgba(255,179,71,0)'); g.fillStyle = gr; g.fillRect(0,0,64,64); return new THREE.CanvasTexture(c); })();
+    const pMat = new THREE.PointsMaterial({size:.09, map:dotTex, transparent:true, opacity:.65, depthWrite:false, blending:THREE.AdditiveBlending});
+    const points = new THREE.Points(pGeo, pMat); scene.add(points);
+
+    /* Layout: coin right on wide screens, top-centre on phones */
+    const layout = {x:0, y:0, s:1};
+    function resize(){
+      const w = hero.clientWidth, h = hero.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h; camera.updateProjectionMatrix();
+      const visH = 2 * camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
+      const visW = visH * camera.aspect;
+      if (w <= 900){
+        /* Centre the coin in the space between the nav and the copy */
+        const copy = hero.querySelector('.hero-copy');
+        const copyTop = copy.getBoundingClientRect().top - hero.getBoundingClientRect().top;
+        const navH = 68, avail = Math.max(160, copyTop - navH);
+        const screenY = navH + avail / 2;
+        layout.x = 0; layout.y = (.5 - screenY / h) * visH;
+        layout.s = Math.min(.95, (avail * .82) * visH / (4.1 * h), visW * .7 / 4.1);
+      }
+      else if (w <= 1080){ layout.x = visW * .3; layout.y = 0; layout.s = .64; }
+      else { layout.x = visW * .27; layout.y = 0; layout.s = .88; }
+      if (reduce) render();
+    }
+
+    /* State */
+    const intro = {scale:.62, spin:-1.4, glow:0, line:0, particles:0};
+    const pointer = {x:0, y:0, tx:0, ty:0};
+    if (!reduce && matchMedia('(hover:hover)').matches){
+      addEventListener('pointermove', (e) => { pointer.tx = (e.clientX / innerWidth) * 2 - 1; pointer.ty = (e.clientY / innerHeight) * 2 - 1; }, {passive:true});
+    }
+    let spin = .5, t = 0, last = performance.now(), visible = true, rafId = 0, frames = 0, slowAcc = 0, degraded = false;
+
+    function render(){
+      coinPivot.position.set(layout.x, layout.y + (reduce ? 0 : Math.sin(t*.8)*.06), 0);
+      coinPivot.scale.setScalar(layout.s * intro.scale);
+      coin.rotation.y = spin + intro.spin + pointer.x * .45;
+      coin.rotation.x = -.12 + pointer.y * .22 + (reduce ? 0 : Math.sin(t*.5)*.04);
+      orbit1.rotation.z = t * .05; orbit2.rotation.z = -t * .035;
+      glow.material.opacity = .5 * intro.glow * (.9 + Math.sin(t*1.1)*.1);
+      orbitMat.opacity = .14 * intro.glow; orbit2.material.opacity = .08 * intro.glow;
+      const n = Math.floor(chartPts.length * intro.line); chartGeo.setDrawRange(0, n); chartGeo2.setDrawRange(0, n);
+      pMat.opacity = .65 * intro.particles;
+      camera.position.x = pointer.x * .35; camera.position.y = -pointer.y * .22; camera.lookAt(layout.x * .25, 0, 0);
+      grid.position.x = -pointer.x * .4;
+      renderer.render(scene, camera);
+    }
+    function loop(now){
+      rafId = requestAnimationFrame(loop);
+      if (!visible || document.hidden){ last = now; return; }
+      const raw = (now - last) / 1000; const dt = Math.min(.05, raw); last = now; t += dt;
+      /* Adaptive quality: drop resolution on slow devices */
+      if (frames < 90){ frames++; slowAcc += raw; if (frames === 90 && slowAcc / 90 > .034 && !degraded){ degraded = true; renderer.setPixelRatio(1); resize(); } }
+      spin += dt * .32;
+      pointer.x += (pointer.tx - pointer.x) * .05; pointer.y += (pointer.ty - pointer.y) * .05;
+      const pa = pGeo.attributes.position.array;
+      for (let i=0;i<N;i++){ pa[i*3+1] += pSpd[i] * dt; if (pa[i*3+1] > 7) pa[i*3+1] = -7; }
+      pGeo.attributes.position.needsUpdate = true;
+      render();
+    }
+
+    new ResizeObserver(resize).observe(hero); resize();
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; }, {threshold:0}).observe(hero);
+
+    if (reduce){
+      Object.assign(intro, {scale:1, spin:0, glow:1, line:1, particles:1}); spin = .55; render();
+    } else {
+      rafId = requestAnimationFrame(loop);
+    }
+    return { intro, finish(){ Object.assign(intro, {scale:1, spin:0, glow:1, line:1, particles:1}); render(); } };
+  }
+
+  /* =========================================================
+     MOTION (GSAP + ScrollTrigger)
+     ========================================================= */
+  function initMotion(scene){
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.ticker.lagSmoothing(0); /* keep copy reveals on wall-clock time even if the 3D scene is slow */
+
+    /* One orchestrated hero entrance */
+    const tl = gsap.timeline({defaults:{ease:'power3.out'}});
+    tl.fromTo('.hero', {backgroundColor:'#000'}, {backgroundColor:'rgba(0,0,0,0)', duration:1.2}, 0);
+    if (scene){
+      tl.to(scene.intro, {glow:1, particles:1, duration:1.6, ease:'power2.out'}, 0)
+        .to(scene.intro, {scale:1, spin:0, duration:2.1, ease:'expo.out'}, .1)
+        .to(scene.intro, {line:1, duration:2.6, ease:'power2.inOut'}, .5);
+    }
+    tl.fromTo('[data-hero]', {opacity:0, y:26, filter:'blur(14px)'}, {opacity:1, y:0, filter:'blur(0px)', duration:1, stagger:.11}, .35);
+
+    /* Section headings: a single restrained reveal each */
+    gsap.utils.toArray('[data-reveal]').forEach(el => {
+      gsap.from(el, {opacity:0, y:28, filter:'blur(12px)', duration:1, ease:'power3.out', scrollTrigger:{trigger:el, start:'top 86%', once:true}});
+    });
+
+    /* Content reveals keep the motion soft, with a brief blur resolving into focus. */
+    gsap.from('.bento .card', {opacity:0, y:24, filter:'blur(10px)', duration:.8, stagger:.1, ease:'power3.out', scrollTrigger:{trigger:'#benefits', start:'top 66%', once:true}});
+    gsap.from('.ticker-window', {opacity:0, y:20, filter:'blur(10px)', duration:.9, ease:'power3.out', scrollTrigger:{trigger:'#results', start:'top 72%', once:true}});
+    gsap.from('.price-card', {opacity:0, y:20, filter:'blur(10px)', duration:.9, ease:'power3.out', scrollTrigger:{trigger:'#membership', start:'top 72%', once:true}});
+    gsap.from('.faq-list', {opacity:0, y:20, filter:'blur(10px)', duration:.9, ease:'power3.out', scrollTrigger:{trigger:'#faq', start:'top 72%', once:true}});
+
+    /* Problem: noise → structure */
+    const noise = document.getElementById('noise-path'), struct = document.getElementById('struct-path');
+    const len = struct.getTotalLength();
+    gsap.set(struct, {strokeDasharray:len, strokeDashoffset:len});
+    gsap.set('#struct-grid, #struct-dot', {opacity:0});
+    gsap.timeline({scrollTrigger:{trigger:'#problem', start:'top 60%', end:'center 40%', scrub:.8}})
+      .to(noise, {opacity:.35, duration:1}, 0)
+      .to('#struct-grid', {opacity:1, duration:.4}, .2)
+      .to(struct, {strokeDashoffset:0, duration:1, ease:'none'}, .2)
+      .to('#struct-dot', {opacity:1, duration:.2}, 1);
+
+    /* Benefits charts: candles rise in, trace draws */
+    ['#chart-analysis', '#chart-app'].forEach(sel => {
+      const svg = document.querySelector(sel); const trace = svg.querySelector('.trace');
+      const st = {trigger:svg, start:'top 85%', once:true};
+      gsap.from(svg.querySelectorAll('.cdl'), {opacity:0, y:10, duration:.5, stagger:.025, ease:'power2.out', scrollTrigger:st});
+      if (trace){ const L = trace.getTotalLength(); gsap.fromTo(trace, {strokeDasharray:L, strokeDashoffset:L}, {strokeDashoffset:0, duration:1.8, ease:'power2.inOut', scrollTrigger:st}); }
+    });
+
+    /* Community: the app tilts flat as it enters; floats drift */
+    const mm = gsap.matchMedia();
+    mm.add('(min-width:761px)', () => {
+      gsap.fromTo('#app', {rotateX:14, scale:.96}, {rotateX:0, scale:1, ease:'none', scrollTrigger:{trigger:'#stage', start:'top 90%', end:'top 25%', scrub:.6}});
+      gsap.utils.toArray('.float').forEach(f => {
+        const d = parseFloat(f.dataset.depth || 1);
+        gsap.fromTo(f, {y:60*d}, {y:-60*d, ease:'none', scrollTrigger:{trigger:'#stage', start:'top bottom', end:'bottom top', scrub:true}});
+      });
+      const stage = document.getElementById('stage');
+      const floats = gsap.utils.toArray('.float');
+      const setters = floats.map(f => gsap.quickTo(f, 'x', {duration:.8, ease:'power3.out'}));
+      const onMove = (e) => { const r = stage.getBoundingClientRect(); const nx = (e.clientX - r.left)/r.width - .5; floats.forEach((f,i) => setters[i](nx * 24 * parseFloat(f.dataset.depth || 1))); };
+      stage.addEventListener('pointermove', onMove);
+      return () => stage.removeEventListener('pointermove', onMove);
+    });
+
+    /* Timeline progress line */
+    const steps = gsap.utils.toArray('.step');
+    const light = (p) => steps.forEach((s,i) => s.classList.toggle('lit', p >= (i / (steps.length - 1)) * .92 - .001));
+    mm.add('(min-width:761px)', () => {
+      gsap.fromTo('#steps-fill', {scaleX:0, scaleY:1}, {scaleX:1, ease:'none', scrollTrigger:{trigger:'#steps', start:'top 75%', end:'bottom 55%', scrub:.6, onUpdate:s => light(s.progress)}});
+    });
+    mm.add('(max-width:760px)', () => {
+      gsap.fromTo('#steps-fill', {scaleY:0, scaleX:1}, {scaleY:1, ease:'none', scrollTrigger:{trigger:'#steps', start:'top 70%', end:'bottom 60%', scrub:.6, onUpdate:s => light(s.progress)}});
+    });
+
+    /* Final CTA: coin rings turn slowly as it scrolls in */
+
+    /* Real stats only: count up */
+    document.querySelectorAll('.count').forEach(el => {
+      const to = parseFloat(el.dataset.to); if (isNaN(to)) return; const o = {v:0};
+      gsap.to(o, {v:to, duration:1.6, ease:'power2.out', scrollTrigger:{trigger:el, start:'top 90%', once:true}, onUpdate:() => el.textContent = Math.round(o.v).toLocaleString()});
+    });
+  }
+
+  /* ---------- Boot ---------- */
+  applyConfig();
+  initUpsells(); initNav(); initFAQ(); initCheckout(); buildCharts(); initCardGlow();
+  const scene = initHero();
+  if (hasGsap && !reduce) initMotion(scene);
+  else {
+    if (scene) scene.finish();
+    document.querySelectorAll('.step').forEach(s => s.classList.add('lit'));
+  }
+})();
+</script>
+</body>
+</html>
